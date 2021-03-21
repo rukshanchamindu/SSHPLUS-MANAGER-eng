@@ -2,7 +2,7 @@
 #26/01/2021
 clear
 clear
-# FOLDER AND FILE ADDRESSES
+# DIRECCIONES DE CARPETAS Y ARCHIVOS 
 
 SCPdir="/etc/VPS-MX" && [[ ! -d ${SCPdir} ]] && exit 1
 SCPusr="${SCPdir}/controlador" && [[ ! -d ${SCPusr} ]] && mkdir ${SCPusr}
@@ -22,14 +22,14 @@ USRdatacredi="/etc/BOT-C2/creditos"
 [[ ! -e "/bin/ShellBot.sh" ]] && wget -O /bin/ShellBot.sh https://www.dropbox.com/s/iq1cnpuytakc0lr/ShellBot.sh &> /dev/null
 [[ -e /etc/texto-bot ]] && rm /etc/texto-bot
 
-# #### VERIFYING PRIMARY PACKAGES
+##### VERIFICANDO  PAQUETES PRIMARIOS
 
 [[ $(dpkg --get-selections|grep -w "jq"|head -1) ]] || apt-get install jq -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "vnstat"|head -1) ]] || apt-get install vnstat -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "vnstati"|head -1) ]] || apt-get install vnstati -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "nmap"|head -1) ]] || apt-get install nmap -y &>/dev/null
 
-# # TOKEN BOT ENTRY
+## INGRESO DE TOKEN BOT
 clear
 msg -bar
 msg -tit
@@ -46,7 +46,7 @@ IDIOMA="$(cat ${SCPidioma})" && [[ -z $IDIOMA ]] && IDIOMA="es" #ARGUMENTO 2 (ID
 [[ -z $2 ]] && [[ -z $3 ]] && [[ -z $4 ]] && {
 screen -dmS telebot ${SCPfrm}/ADMbot.sh id "$TOKEN" "$USERLIB" "$PASSLIB"
 msg -bar
-echo -e " \ 033 [1; 92m BOT iniciador CON CALL "
+echo -e "\033[1;92m                BOT INICIADO CON EXCITO"
 msg -bar
 exit 0
 }
@@ -54,23 +54,23 @@ else
 kill -9 $(ps aux |grep -v grep |grep -w "ADMbot.sh"|grep dmS|awk '{print $2}') && echo -e "\033[1;91m                BOT DETENIDO CON EXCITO"
 msg -bar
 exit 0
-be
+fi
 LINE='━━━━━━━━━━━━━━━━━━━━'
 USRdatabase="/etc/VPS-MX/VPS-MXuser"
-# IMPORTING API
+#IMPORTANDO API
 source ShellBot.sh
 ShellBot.init --token "$TOKEN"
 ShellBot.username
-# SUPPRESS ERRORS
+# SUPRIME ERROS
 exec 2>/dev/null
-# PIDS SYSTEM
+# SISTEMA DE PIDS
 dropbear_pids () {
 unset pids
-port_dropbear = ` ps aux | grip dropbear | awk NR == 1 | awk ' {print $ 17;} ' `
+port_dropbear=`ps aux | grep dropbear | awk NR==1 | awk '{print $17;}'`
 log=/var/log/auth.log
 loginsukses='Password auth succeeded'
 [[ -z $port_dropbear ]] && return 1
-for  a port  in  ` echo $ port_dropbear ` ;  do
+for port in `echo $port_dropbear`; do
  for pidx in $(ps ax |grep dropbear |grep "$port" |awk -F" " '{print $1}'); do
   pids="${pids}$pidx\n"
  done
@@ -78,7 +78,7 @@ done
 for pid in `echo -e "$pids"`; do
   pidlogs=`grep $pid $log |grep "$loginsukses" |awk -F" " '{print $3}'`
   i=0
-    for  pidend  in  $ pidlogs ;  of
+    for pidend in $pidlogs; do
     let i++
     done
     if [[ $pidend ]]; then
@@ -88,7 +88,7 @@ for pid in `echo -e "$pids"`; do
     waktu=$(echo $login |awk -F" " '{print $2"-"$1,$3}')
     [[ -z $user ]] && continue
     echo "$user|$PID|$waktu"
-    be
+    fi
 done
 }
 openvpn_pids () {
@@ -98,14 +98,14 @@ openvpn_pids () {
    [[ "$B" -lt 1024 ]] && echo "${B} bytes" && break
    KB=$(((B+512)/1024))
    [[ "$KB" -lt 1024 ]] && echo "${KB} Kb" && break
-   MB = $ (( KB + 512 ) / 1024 )
+   MB=$(((KB+512)/1024))
    [[ "$MB" -lt 1024 ]] && echo "${MB} Mb" && break
-   GB = $ (( (MB + 512 ) / 1024 ))
+   GB=$(((MB+512)/1024))
    [[ "$GB" -lt 1024 ]] && echo "${GB} Gb" && break
    echo $(((GB+512)/1024)) terabytes
    done
    }
-for  user  in  $ ( show_users ) ;  do
+for user in $(mostrar_usuarios); do
 [[ ! $(sed -n "/^${user},/p" /etc/openvpn/openvpn-status.log) ]] && continue
 i=0
 unset RECIVED
@@ -127,9 +127,9 @@ HOUR=$(echo -e $HOUR|sort -n|tail -1)
 echo -e "$user|$i|$RECIVED|$SEND|$HOUR"
 done
 }
-# ADD USER
+# ADICIONA USUARIO
 add_user () {
-# name password Deadlines
+#nome senha Dias limite
 [[ $(cat /etc/passwd |grep $1: |grep -vi [a-z]$1 |grep -v [0-9]$1 > /dev/null) ]] && return 1
 valid=$(date '+%C%y-%m-%d' -d " +$3 days") && datexp=$(date "+%F" -d " + $3 days")
 useradd -M -s /bin/false $1 -e ${valid} > /dev/null 2>&1 || return 1
@@ -145,9 +145,9 @@ useradd -M -s /bin/false $1 -e ${valid} > /dev/null 2>&1 || return 1
    done
    } || echo "$1|$2|${datexp}|$4" > ${USRdatabase}
 }
-# REMOVE USER
+# REMOVER USUARIO
 rm_user () {
-# name
+#nome
 userdel --force "$1" &>/dev/null || return 1
 [[ -e ${USRdatabase} ]] && {
    newbase=$(cat ${USRdatabase}|grep -w -v "$1")
@@ -157,44 +157,44 @@ userdel --force "$1" &>/dev/null || return 1
    done
    }
 }
-# LIST OF REGISTERED USERS
-show_users () {
+# LISTA OS USUARIOS CADASTRADOS
+mostrar_usuarios () {
 for u in `awk -F : '$3 > 900 { print $1 }' /etc/passwd | grep -v "nobody" |grep -vi polkitd |grep -vi system-`; do
 echo "$u"
 done
 }
 # DEFINE UM IP
-my_ip () {
+meu_ip () {
 if [[ -e /etc/VPS-MX/MEUIPvps ]]; then
 echo "$(cat /etc/VPS-MX/MEUIPvps)"
 else
-MEU_IP = $ ( ip addr | grep ' inet '  | grep -v inet6 | grep -vE ' 127 \. [0-9] {1,3} \. [0-9] {1,3} \. [0 -9] {1,3} '  | grep -o -E ' [0-9] {1,3} \. [0-9] {1,3} \. [0-9] {1,3} \. [0-9] {1,3} '  | head -1 )
-MY_IP2 = $ ( wget -qO- ipv4.icanhazip.com )
+MEU_IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+MEU_IP2=$(wget -qO- ipv4.icanhazip.com)
 [[ "$MEU_IP" != "$MEU_IP2" ]] && echo "$MEU_IP2" || echo "$MEU_IP"
 echo "$MEU_IP" > /etc/VPS-MX/MEUIPvps
-be
+fi
 }
 # USUARIO BLOCK
 blockfun () {
 local bot_retorno="$LINE\n"
-          bot_return + = " --❌ YOU CANNOT USE THE BOT ❌ - \ n "
+          bot_retorno+="--❌ USTED NO PUEDE USAR EL BOT ❌--\n"
           bot_retorno+="$LINE\n"
-          returnbot + = " _-- If you are ADMIN, enter your credentials --_ \ n "
+          bot_retorno+="_--Si eres ADMIN introduse tus credenciales--_\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
 	return 0
 }
-# LOGUIN SYSTEM
+# SISTEMA DE LOGUIN
 ativarid_fun () {
 if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "$3") ]]; then
 local bot_retorno+="$LINE\n"
-          bot_retorno + = " - - 🔰 ADMIN ACCESS RELEASED 🔰 - - \ n "
+          bot_retorno+="- - 🔰 ACESSO DE ADMIN LIBERADO 🔰 - - \n"
           bot_retorno+="$LINE\n"
-          bot_return + = " ✌️ You can already use the Bot \ n "
-          bot_return + = " 👉 Make it Good Use \ n "
-		  bot_retorno + = " ⚙️ Main Command: * / menu * \ n "
+          bot_retorno+="✌️ Usted ya Puede usar el Bot\n"
+          bot_retorno+="👉 Dele Buen Uso\n"
+		  bot_retorno+="⚙️ Comando Principal: * /menu *\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -203,11 +203,11 @@ return 0
 elif [[ $1 = ${USERLIB} ]] && [[ $2 = ${PASSLIB} ]]; then
 [[ -z $LIBERADOS ]] && LIBERADOS="${3}" || LIBERADOS="${LIBERADOS} ${3}"
 local bot_retorno+="$LINE\n"
-          bot_retorno + = " - - 🔰 ADMIN ACCESS RELEASED 🔰 - - \ n "
+          bot_retorno+="- - 🔰 ACESSO DE ADMIN LIBERADO 🔰 - - \n"
           bot_retorno+="$LINE\n"
-          bot_return + = " ✌️ You can already use the Bot \ n "
-          bot_return + = " 👉 Make it Good Use \ n "
-		  bot_retorno + = " ⚙️ Main Command: * / menu * \ n "
+          bot_retorno+="✌️ Usted ya Puede usar el Bot\n"
+          bot_retorno+="👉 Dele Buen Uso\n"
+		  bot_retorno+="⚙️ Comando Principal: * /menu *\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -215,25 +215,25 @@ local bot_retorno+="$LINE\n"
 return 0
 else
 local bot_retorno+="$LINE\n"
-          bot_retorno + = " --❌ ERROR OF CREDENTIALS ADMIN ❌ - \ n "
+          bot_retorno+="--❌ ERROR DE CREDENCIALES ADMIN ❌--\n"
           bot_retorno+="$LINE\n"
-          bot_retorno + = " _ ADMIN Access Denied_ \ n "
-          bot_return + = " _User / Wrong Password_ \ n "
+          bot_retorno+="_Acesso de ADMIN Negado_\n"
+          bot_retorno+="_Usuario/Contraseña Erroneos_\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
 return 0
-be
+fi
 }
 loguin_fun () {
 local bot_retorno+="$LINE\n"
-          bot_return + = " USERS WITH ACCESS TO THE ADMIN \ n "
+          bot_retorno+="USUARIOS CON ACCESO AL ADMIN\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
-for  lines  in  $ ( echo $ RELEASED ) ;  of
+for lines in $(echo $LIBERADOS); do
 local bot_retorno+="$LINE\n"
           bot_retorno2+="$Usuario ID: $lines\n"
           bot_retorno+="$LINE\n"
@@ -243,25 +243,25 @@ local bot_retorno+="$LINE\n"
 done
 return 0
 }
-# VPS INFORMATION
+# INFORMAÇÕES DA VPS
 infovps () {
 mine_port () {
-unset doors
+unset portas
 portas_var=$(lsof -V -i tcp -P -n | grep -v "ESTABLISHED" |grep -v "COMMAND" | grep "LISTEN")
 i=0
 while read port; do
 var1=$(echo $port | awk '{print $1}') && var2=$(echo $port | awk '{print $9}' | awk -F ":" '{print $2}')
 [[ "$(echo -e ${portas}|grep "$var1|$var2")" ]] || {
-    doors + = " $ var1 | $ var2 \ n "
+    portas+="$var1|$var2\n"
     let i++
     }
 done <<< "$portas_var"
-echo -e $ doors
+echo -e $portas
 }
 local bot_retorno="$LINE\n"
-          bot_return + = " * Active Ports and Protocols * \ n "
+          bot_retorno+="*Puertos y Protocolos Activos*\n"
           bot_retorno+="$LINE\n"
-          return bot + = " * IP: * $ ( my_ip ) \ n "
+          bot_retorno+="*IP:* $(meu_ip)\n"
           while read line; do
           local serv=$(echo $line|cut -d'|' -f1)
           local port=$(echo $line|cut -d'|' -f2)
@@ -273,25 +273,25 @@ local bot_retorno="$LINE\n"
 							--parse_mode markdown
 	return 0
 }
-# HELP
-help_fun () {
+# AJUDA
+ajuda_fun () {
 
 #MONITOR UDP
 on=" [ ACTIVADO ] " && off=" [ DESACTIVADO ] "
-[[ $ ( ps x | grep badvpn | grep -v grep | awk ' {print $ 1} ' ) ]] && badvpn = $ on  || badvpn = $ off
+[[ $(ps x | grep badvpn | grep -v grep | awk '{print $1}') ]] && badvpn=$on || badvpn=$off
 
-# REGISTERED ACCOUNTS SSH
+#CUENTAS REGISTRADAS SSH
 SSHN="$(grep -c home /etc/passwd)"
 SSH2="$(echo ${SSHN}|bc)-2"
 echo "${SSH2}"|bc > /etc/BOT-A/SSH20.log
 SSH3="$(less /etc/BOT-A/SSH20.log)"
 SSH4="$(echo $SSH3)"
-# ONLINES
+#ONLINES
 ONLINES="$(less /etc/VPS-MX/USRonlines)"
-# #DEMOS REGISTERED
+##DEMOS REGISTRADOS
 demo=`cd /etc/BOT-TEMP && ls | wc -l`
 cd
-# # GIVE REMAINING
+##DEMOS RESTANTES 
 demo2="10-$(echo ${demo}|bc)+0"
 echo "${demo2}"|bc > /etc/BOT-A/SSH-DEMO.log
 demo3="$(less /etc/BOT-A/SSH-DEMO.log)"
@@ -335,8 +335,8 @@ local bot_retorno="*$LINE*\n"
 info_fun () {
 if [[ ! -e "${USRdatabase}" ]]; then
 local bot_retorno="$LINE\n"
-          bot_retorno = " A database with users has not been identified \ n "
-          bot_retorno = " Users to Follow Does Not Contain Any Information \ n "
+          bot_retorno="No se ha identificado una base de datos con los usuarios\n"
+          bot_retorno="Los Usuarios a Seguir No contiene Ninguna Informacion\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -344,12 +344,12 @@ local bot_retorno="$LINE\n"
 else
 VPSsec=$(date +%s)
 local bot_retorno="$LINE\n"
-         bot_return + = " * Registered SSH Accounts * \ n "
+         bot_retorno+="* Cuentas SSH Registradas* \n"
          bot_retorno+="$LINE\n"
          ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
-         for  user  in  $ ( show_users ) ;  do
+         for user in $(mostrar_usuarios); do
              sen=$(cat ${USRdatabase}|grep -w "$user"|cut -d '|' -f2)
              [[ -z $sen ]] && sen="???"
              DateExp="$(cat ${USRdatabase}|grep -w "${user}"|cut -d'|' -f3)"
@@ -358,27 +358,27 @@ local bot_retorno="$LINE\n"
              [[ "$VPSsec" -gt "$DataSec" ]] && EXPTIME="${red}[Exp]" || EXPTIME="${gren}[$(($(($DataSec - $VPSsec)) / 86400))]"
              else
              EXPTIME="???"
-             be
+             fi
              limit=$(cat ${USRdatabase}|grep -w "$user"|cut -d '|' -f4)
              [[ -z $limit ]] && limit="???"
              bot_retorno="$LINE\n"       
              bot_retorno+="$(fun_trans "Usuario"): $user\n"
              bot_retorno+="$(fun_trans "Contraseña"): $sen\n"
-             bot_retorno + = " $ ( fun_trans " Bias yield " ) : $ EXPTIME \ n "
+             bot_retorno+="$(fun_trans "Dias Restantes"): $EXPTIME\n"
              bot_retorno+="$(fun_trans "Limite"): $limit\n"
              bot_retorno+="$LINE\n"
              ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
          done
-be
+fi
 return 0
 }
 online_fun () {
 MyTIME="${SCPusr}/time-vps-mx"
 [[ -e ${MyTIME} ]] && source ${MyTIME} || touch ${MyTIME}
 local bot_retorno="$LINE\n"
-         bot_retorno + = " $ * User Monitor * \ n "
+         bot_retorno+="$* Monitor de Usuarios* \n"
          bot_retorno+="$LINE\n"
 while read user; do
 PID="0+"
@@ -389,10 +389,10 @@ PID+="0"
 [[ $(echo $PID|bc) = 0 ]] && continue
 TIMEON="${TIMEUS[$user]}"
 [[ -z $TIMEON ]] && TIMEON=0
-MIN = $ (( $ TIMEON / 60 ))
+MIN=$(($TIMEON/60))
 SEC=$(($TIMEON-$MIN*60))
-HOR = $ (( $ MIN / 60 ))
-MIN = $ (( $ MIN - $ HOR * 60 ))
+HOR=$(($MIN/60))
+MIN=$(($MIN-$HOR*60))
 HOUR="${HOR}h:${MIN}m:${SEC}s"
 [[ -z $(cat ${USRdatabase}|grep -w "${user}") ]] && MAXPID="?" || MAXPID="$(cat ${USRdatabase}|grep -w "${user}"|cut -d'|' -f4)"
 TOTALPID="$(echo $PID|bc)/$MAXPID"
@@ -421,9 +421,9 @@ error_fun () {
 local bot_retorno="$LINE\n"
          bot_retorno+=" -->>> MODO DE USO\n"
          bot_retorno+="$LINE\n"
-         bot_return + = " add User Password Days Limit \ n "
+         bot_retorno+="add Contraseña Dias Limite\n"
          bot_retorno+="Ejemplo:\n"
-         bot_retorno + = ' add admin admin 30 1 \ n '
+         bot_retorno+='add admin admin 30 1\n'
          bot_retorno+="$LINE\n"
          case $1 in
          [1-3]|14)
@@ -452,7 +452,7 @@ local bot_retorno="$LINE\n"
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
 }
-     active_users = ( $ ( show_users ) )
+     usuarios_ativos=($(mostrar_usuarios))
      [[ -z "$1" ]] && error_fun && return 0
      [[ -z "$2" ]] && error_fun && return 0
      [[ -z "$3" ]] && error_fun && return 0
@@ -465,32 +465,32 @@ local bot_retorno="$LINE\n"
      error_fun 3 && return 0
      elif [[ "$(echo ${usuarios_ativos[@]}|grep -w "$1")" ]]; then
      error_fun 14 && return 0
-     be    
+     fi    
      if [[ -z $2 ]]; then
      error_fun 4 && return 0
      elif [[ "${#2}" -lt "6" ]]; then
      error_fun 5 && return 0
      elif [[ "${#2}" -gt "20" ]]; then
      error_fun 6 && return 0
-     be
+     fi
      if [[ -z "$3" ]]; then
      error_fun 7 && return 0
      elif [[ "$3" != +([0-9]) ]]; then
      error_fun 8 && return 0
      elif [[ "$3" -gt "360" ]]; then
      error_fun 9 && return 0
-     be
+     fi
      if [[ -z "$4" ]]; then
      error_fun 11 && return 0
      elif [[ "$4" != +([0-9]) ]]; then
      error_fun 12 && return 0
      elif [[ "$4" -gt "999" ]]; then
      error_fun 13 && return 0
-     be
+     fi
      add_user "$1" "$2" "$3" "$4"
      if [[ "$?" = "1" ]]; then
      local bot_retorno="$LINE\n"
-              bot_return + = " $ ( fun_trans " User Not Created " ) \ n "
+              bot_retorno+="$(fun_trans "Usuario No Fue Creado")\n"
               bot_retorno+="$LINE\n"
               ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -498,27 +498,27 @@ local bot_retorno="$LINE\n"
       return 0
       else
       local bot_retorno="$LINE\n"
-               bot_return + = " ACCOUNT CREATED \ n "
+               bot_retorno+="CUENTA CREADA\n"
 			   bot_retorno+="$LINE\n"
-               bot_return + = " Usuary: $ 1 \ n "
-               bot_retorno + = " Password: $ 2 \ n "
-               bot_retorno + = " Duration: $ 3 Days \ n "
+               bot_retorno+="Usuario: $1\n"
+               bot_retorno+="Contraseña: $2\n"
+               bot_retorno+="Duracion: $3 Dias\n"
                bot_retorno+="Limite: $4 Logeo\n"
                bot_retorno+="$LINE\n"
                ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
         return 0
-        be
+        fi
 }
 userdell_fun () {
 error_fun () {
 local bot_retorno="$LINE\n"
          bot_retorno+=" -->>> MODO DE USO\n"
          bot_retorno+="$LINE\n"
-         bot_retorno + = " delete User \ n "
+         bot_retorno+="delete Usuario\n"
          bot_retorno+="Ejemplo:\n"
-         bot_retorno + = ' delete admin \ n '
+         bot_retorno+='delete admin\n'
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -536,7 +536,7 @@ local bot_retorno="$LINE\n"
 return 0
 } || {
 local bot_retorno="$LINE\n"
-          bot_retorno + = " User Not Removed \ n "
+          bot_retorno+="Usuario No Removido\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -545,7 +545,7 @@ return 0
  }
 }
 paygen_fun () {
-generate_pays () {
+gerar_pays () {
 echo 'GET http://mhost/ HTTP/1.1[crlf][raw][crlf] [crlf][crlf]
 CONNECT mhost@[host_port] HTTP/1.1[crlf][crlf]GET http://mhost/ [protocol][crlf]Host: mhost[crlf]X-Online-Host: mhost[crlf]X-Forwarded-For: mhost[crlf]User-Agent: [ua][crlf][crlf]
 CONNECT mhost@[host_port] HTTP/1.1[crlf][crlf]GET http://mhost/ [protocol][crlf]Host: mhost[crlf]X-Online-Host: mhost[crlf]X-Forwarded-For: mhost[crlf]User-Agent: [ua][crlf] [crlf]
@@ -703,7 +703,7 @@ local bot_retorno="$LINE\n"
           bot_retorno+="/gerar $(fun_trans "Host") $(fun_trans "Solicitud") $(fun_trans "Conexion")\n"
           bot_retorno+="$(fun_trans "Ejemplo"):\n"
           bot_retorno+="/gerar www.host.com (1 a 9) (1 a 3)\n"
-          bot_retorno + = " / generate www.host.com 2 1 \ n "
+          bot_retorno+="/gerar www.host.com 2 1\n"
           bot_retorno+="$LINE\n"
           bot_retorno+="$(fun_trans "Metodos Solicitud")\n${LINE}\n1-GET, 2-CONNECT, 3-PUT, 4-OPTIONS, 5-DELETE, 6-HEAD, 7-TRACE, 8-PROPATCH, 9-PATCH\n"
           bot_retorno+="$LINE\n"
@@ -717,8 +717,8 @@ return 0
 }
 valor1="$1" #Entrada Host 
 valor2="127.0.0.1" #Entrada IP
-valor3 = " $ 2 "  # Metodo Requisicao
-value4 = " $ 3 "  # Connection Method
+valor3="$2" #Metodo Requisicao
+valor4="$3" #Metodo Conexao
 [[ "$1" = "" ]] && fail_fun && return 0
 [[ "$2" = "" ]] && fail_fun && return 0
 [[ "$3" = "" ]] && fail_fun && return 0
@@ -768,7 +768,7 @@ local bot_retorno="$LINE\n"
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
 return 0
-be
+fi
 }
 scan_fun () {
 error_fun () {
@@ -809,7 +809,7 @@ local bot_retorno+="$hostreturn\n"
 							--parse_mode markdown
 	  unset bot_retorno
 	  unset i
-	  be
+	  fi
 let i++
 done <<< "$RETURN"
 [[ ! -z $bot_retorno ]] && {
@@ -817,7 +817,7 @@ done <<< "$RETURN"
 							--text "*$(echo -e $bot_retorno)*" \
 							--parse_mode markdown
 	}
-be
+fi
 }
 
 openadd_fun () {
@@ -837,7 +837,7 @@ $(cat /etc/openvpn/ca.pem)
 </ca>" >> $HOME/$client.ovpn
 [[ ! -z $1 ]] && [[ ! -z $2 ]] && sed -i "s;auth-user-pass;<auth-user-pass>\n$1\n$2\n</auth-user-pass>;g" $HOME/$client.ovpn
 local bot_retorno="$LINE\n"
-          bot_retorno + = " $ ( fun_trans " To Generate Files With Automatic Authentication Use " ) : \ n / openadd user without \ n $ LINE \ n "
+          bot_retorno+="$(fun_trans "Para Generar Archivos Con Autenticación Automatica Utilice"):\n/openadd usuario senha\n$LINE\n"
           bot_retorno+="$(fun_trans "ARCHIVO OPENVPN GENERADO CON EXITO")\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -905,14 +905,14 @@ local bot_retorno="$returntxt\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "_$(echo -e $bot_retorno)_" \
 							--parse_mode markdown
-be
+fi
 }
 language_fun () {
 if [[ -z $2 || -z $3 ]]; then
 local bot_retorno="$LINE\n"
            bot_retorno+=" -->>> MODO DE USO\n"
 		  bot_retorno+="$LINE\n"
-          bot_retorno + = " / lang (pt, fr, es, en ...) (text) \ n "
+          bot_retorno+="/lang (pt, fr, es, en...) (text)\n"
           bot_retorno+="/lang es Hello\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -921,49 +921,49 @@ local bot_retorno="$LINE\n"
 return 0
 else
 local array=($@)
-RETURN location
+local RETORNO
 for((i=2; i<=${#array[@]}; i++)); do
 local RET=$(source trans -b :$2 "${array[$i]}")
-[[ -z  $ RETURN ]] && RETURN = $ RET  || RETURN = " $ RETURN  $ RET "
+[[ -z $RETORNO ]] && RETORNO=$RET || RETORNO="$RETORNO $RET"
 done
 local bot_retorno="$LINE\n"
-          bot_return + = " * Your Translation: * \ n "
+          bot_retorno+="* Su Traduccion: *\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "*$(echo -e $bot_retorno)*" \
 							--parse_mode markdown
-          bot_retorno = " $ ( echo $ RETURN | sed -e ' s / [^ a-z0-9 -] // ig ' ) \ n "
+          bot_retorno="$(echo $RETORNO|sed -e 's/[^a-z0-9 -]//ig')\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "_$(echo -e $bot_retorno)_" \
 							--parse_mode markdown
 return 0
-be
+fi
 }
 teste_fun () {
 local bot_retorno="$LINE\n"
           bot_retorno+="$(fun_trans "USUARIO"): ${chatuser}\n"
-          bot_retorno + = " $ ( fun_trans " argument " ) : $ {commando [@]} \ n "
+          bot_retorno+="$(fun_trans "ARGUMENTOS"): ${comando[@]}\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "_$(echo -e $bot_retorno)_" \
 							--parse_mode markdown
 #local bot_retorno="$LINE\n"
-#           Bot_retorno + = "$ (fun_trans" Being user "): $ chatuser {} \ n"
-#           bot_retorno + = "$ (fun_trans" THESE ARGUMENTS "): $ {command [@]} \ n"
+#          bot_retorno+="$(fun_trans "ESSE USUARIO"): ${chatuser}\n"
+#          bot_retorno+="$(fun_trans "ESSES ARGUMENTOS"): ${comando[@]}\n"
 #          bot_retorno+="$LINE\n"
 #          ShellBot.editMessageText --chat_id ${message_chat_id[$id]} --message_id ${reply_to_message_message_id[$id]} --text "$(echo -e $bot_retorno)" --parse_mode markdown
 #return 0
 }
 
-# # RENEW USER
+## RENOVAR USUSARIO
 
 renew_user_fun () {
-# name days
+#nome dias
 fail_fun () {
 local bot_retorno="*$LINE*\n"
           bot_retorno+=" -->>> MODO DE USO\n"
 		  bot_retorno+="*$LINE*\n"
-          bot_retorno + = " / renew user days \ n "
+          bot_retorno+="/renew usuario dias\n"
 		  bot_retorno+="_Ejemplo:_\n"
 		  bot_retorno+="/renew CARLOS 30\n"
           bot_retorno+="*$LINE*\n"
@@ -977,7 +977,7 @@ return 0
 [[ "$2" = "" ]] && fail_fun && return 0
 error_fun () {
 local bot_retorno="*$LINE*\n"
-          bot_retorno + = " * ❗️ USUAL NO REGISTRATION ❗️ * \ n "
+          bot_retorno+="*❗️ USUARIO NO REGISTRADO  ❗️*\n"
           bot_retorno+="*$LINE*\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1010,10 +1010,10 @@ NOM1=`echo $NOM` > /dev/null 2>&1
 IP="$(cat /etc/VPS-MX/MEUIPvps)"
   
    local bot_retorno="*$LINE*\n"
-          bot_return + = " * ACCOUNT RENEWED * \ n "
+          bot_retorno+="*CUENTA RENOVADA* \n"
 		  bot_retorno+="*$LINE*\n"
-		  bot_return + = " ▪️ _User: _ * $ 1 * \ n "
-		  bot_retorno + = " ▪️ _Days Aggregates: _ * $ 2 * \ n "
+		  bot_retorno+="▪️ _Usuario:_ *$1* \n"
+		  bot_retorno+="▪️ _Dias Agregados:_  *$2* \n"
           bot_retorno+="🕰 _Ahora expira:_\n👉 *$datexp* \n"
           bot_retorno+="*$LINE*\n"
 		  bot_retorno+="▪️ _VPS: _ *$NOM1* \n"
@@ -1025,16 +1025,16 @@ IP="$(cat /etc/VPS-MX/MEUIPvps)"
 							
 }
 
-# SSH INFO
+#INFO SSH
 
 info_sshp () {
 error_fun () {
 local bot_retorno="*$LINE*\n"
-          bot_retorno + = " * METHOD OF USE: * \ n "
+          bot_retorno+="*MODO DE USO:*\n"
 		  bot_retorno+="*$LINE*\n"
-		  bot_return + = " Put the Command / info (ENTER USERNAME) \ n "
+		  bot_retorno+="Pon el Comando /SSHI (INGRESA NOMBRE DE USUARIO) \n"
 		  bot_retorno+="*$LINE*\n"
-          bot_retorno+="_Ejemplo: /info NetVPS-xzcmo _\n"
+          bot_retorno+="_Ejemplo: /SSHI NetVPS-xzcmo _\n"
           bot_retorno+="*$LINE*\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1054,17 +1054,17 @@ sen=$(cat /etc/VPS-MX/VPS-MXuser|grep -w "$1"|cut -d '|' -f2)
              [[ "$VPSsec" -gt "$DataSec" ]] && EXPTIME="${red}[EXPIRADA]" || EXPTIME="${gren}[$(($(($DataSec - $VPSsec)) / 86400))]"
              else
              EXPTIME="???"
-             be
+             fi
              limit=$(cat /etc/VPS-MX/VPS-MXuser|grep -w "$1"|cut -d '|' -f4)
              [[ -z $limit ]] && limit="???"
 			 
 local bot_retorno="*$LINE*\n"
          bot_retorno+="*📝 INFO GENERAL SSH 📝*\n"
          bot_retorno+="*$LINE*\n"       
-         bot_retorno + = " ▪️ Usuary: * $ 1 * \ n "
+         bot_retorno+="▪️ Usuario: *$1 *\n"
          #bot_retorno+="$(fun_trans "Contraseña"): $sen\n"
-         bot_retorno + = " ▪️ Days Remaining: * $ EXPTIME * \ n "
-         bot_retorno + = " ▪️ User Limit: * $ limit * \ n "
+         bot_retorno+="▪️ Dias Restantes: *$EXPTIME *\n"
+         bot_retorno+="▪️ Limite de Usuarios: *$limit *\n"
          bot_retorno+="*$LINE*\n"
              ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1077,13 +1077,13 @@ return 0
 
 droppids () {
 local pids
-local port_dropbear = ` ps aux | grip dropbear | awk NR == 1 | awk ' {print $ 17;} ' `
+local port_dropbear=`ps aux | grep dropbear | awk NR==1 | awk '{print $17;}'`
 cat /var/log/auth.log|grep "$(date|cut -d' ' -f2,3)" > /var/log/authday.log
 #cat /var/log/auth.log|tail -1000 > /var/log/authday.log
 local log=/var/log/authday.log
 local loginsukses='Password auth succeeded'
 [[ -z $port_dropbear ]] && return 1
-for  a port  in  ` echo $ port_dropbear ` ;  do
+for port in `echo $port_dropbear`; do
  for pidx in $(ps ax |grep dropbear |grep "$port" |awk -F" " '{print $1}'); do
   pids="${pids}$pidx\n"
  done
@@ -1091,7 +1091,7 @@ done
 for pid in `echo -e "$pids"`; do
   pidlogs=`grep $pid $log |grep "$loginsukses" |awk -F" " '{print $3}'`
   i=0
-    for  pidend  in  $ pidlogs ;  of
+    for pidend in $pidlogs; do
     let i++
     done
     if [[ $pidend ]]; then
@@ -1101,7 +1101,7 @@ for pid in `echo -e "$pids"`; do
     waktu=$(echo $login |awk -F" " '{print $2"-"$1,$3}')
     [[ -z $user ]] && continue
 	echo "$user|$PID|$waktu"
-    be
+    fi
 done
 }
 
@@ -1109,14 +1109,14 @@ done
 blo_unb_fun () {
 error_fun () {
 local bot_retorno="*$LINE*\n"
-          bot_retorno + = " * METHOD OF USE: * \ n "
+          bot_retorno+="*MODO DE USO:*\n"
 		  bot_retorno+="*$LINE*\n"
-		  bot_return + = " Put the Command / block (ENTER USERNAME) \ n "
+		  bot_retorno+="Pon el Comando /block (INGRESA NOMBRE DE USUARIO) \n"
 		  bot_retorno+="\t---- O ----- \n"
-		  bot_return + = " Put the Command / unlock (ENTER USERNAME) \ n "
+		  bot_retorno+="Pon el Comando /unblock (INGRESA NOMBRE DE USUARIO) \n"
 		  bot_retorno+="*$LINE*\n"
           bot_retorno+="_Ejemplo: block Ale2020 _\n"
-		  bot_return + = " _Example: unlock Ale2020 _ \ n "
+		  bot_retorno+="_Ejemplo: unblock Ale2020 _\n"
           bot_retorno+="*$LINE*\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1135,20 +1135,20 @@ limseg="$(less /etc/VPS-MX/controlador/tiemdes.log)"
 KEY="862633455:AAGJ9BBJanzV6yYwLSemNAZAVwn7EyjrtcY"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 MSG="⚠️ AVISO DE VPS: $NOM1 ⚠️
-🔹 ACCOUNT: $ 1 
+🔹 CUENTA: $1 
 ❗️📵 BLOCK FIJO/TEMPORAL 📵❗️
-🔓 (AUTOUNLOCK EN $ limseg SEGUNDOS) 🔓 "
+🔓( AUTOUNLOCK EN $limseg SEGUNDOS) 🔓"
 curl -s --max-time 10 -d "chat_id=$IDB1&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
 
 pkill -u $1 &>/dev/null
 
-be
+fi
 if [[ $(cat ${USRloked}|grep -w "$1") ]]; then
 usermod -U "$1" &>/dev/null
 local bot_retorno="*$LINE*\n"
          bot_retorno+="*⭕️ UNLOCK USUARIO ⭕️*\n"
          bot_retorno+="*$LINE*\n"       
-         bot_retorno + = " ▪️ _User: _ * $ 1 * _Unlocked_ \ n " 
+         bot_retorno+="▪️ _Usuario:_ *$1 * _Desbloqueado_\n" 
          bot_retorno+="*$LINE*\n"
              ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1185,18 +1185,18 @@ echo $1 >> ${USRloked}
 local bot_retorno="*$LINE*\n"
          bot_retorno+="*❌ BLOCK USUARIO ❌*\n"
          bot_retorno+="*$LINE*\n"       
-         bot_return + = " ▪️ _User: _ * $ 1 * _Blocked_ \ n " 
+         bot_retorno+="▪️ _Usuario:_ *$1 * _Bloqueado_\n" 
          bot_retorno+="*$LINE*\n"
              ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
 #notifi &>/dev/null
 return 0
-be
+fi
 
 } 
 
-# ## USER BLOCK READING
+###LECTURA DE USER BLOC
 
 userblock_lee () {
 
@@ -1204,7 +1204,7 @@ local HOST="/etc/VPS-MX/VPS-MX-userlock"
 local RETURN=$(cat $HOST)
 if [[ -z $RETURN ]]; then
 local bot_retorno="$LINE\n"
-          bot_return + = " NO USER BLOCKED \ n "
+          bot_retorno+="NINGUN USUARIO BLOQUEADO\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1213,7 +1213,7 @@ return 0
 else
 i=1
 local bot_retorno="*$LINE*\n"
-         bot_retorno + = " * ❌ USERS BLOCKED ❌ * \ n $ LINE \ n "
+         bot_retorno+="* ❌ USUARIOS BLOQUEADOS ❌*\n$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
 							--parse_mode markdown
@@ -1226,7 +1226,7 @@ local bot_retorno+="$hostreturn\n"
 							--parse_mode markdown
 	  unset bot_retorno
 	  unset i
-	  be
+	  fi
 let i++
 done <<< "$RETURN"
 [[ ! -z $bot_retorno ]] && {
@@ -1234,10 +1234,10 @@ done <<< "$RETURN"
 							--text "*$(echo -e $bot_retorno)*" \
 							--parse_mode markdown
 	}
-be
+fi
 
 local bot_retorno="*$LINE*\n"
-         bot_return + = " THESE ARE USERS WITH BAN \ n "
+         bot_retorno+="ESTOS SON USUARIOS CON BAN\n"
 		 bot_retorno+="*$LINE*\n"
          ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "*$(echo -e $bot_retorno)*" \
@@ -1247,14 +1247,14 @@ local bot_retorno="*$LINE*\n"
 }
 
 
-# LOOP LISTENING TO THE TELEGRAN
+# LOOP ESCUTANDO O TELEGRAN
 while true; do
     ShellBot.getUpdates --limit 100 --offset $(ShellBot.OffsetNext) --timeout 30
     for id in $(ShellBot.ListUpdates); do
 	    chatuser="$(echo ${message_chat_id[$id]}|cut -d'-' -f2)"
 	    echo $chatuser >&2
 	    comando=(${message_text[$id]})
-	    case  $ {command [0]}  in
+	    case ${comando[0]} in
 	      / [Tt] is | [Tt] is) test_fun & ;;
 		  / [Aa] juda | [Aa] juda | [Hh] elp | / [Hh] elp) ajuda_fun & ;;
 		  /[Ss]tart|[Ss]tart|[Cc]omecar|/[Cc]omecar)ajuda_fun &;;
@@ -1282,12 +1282,12 @@ while true; do
              [Ii]nfo|/[Ii]nfo)info_fun & ;;
              [Ss]can|/[Ss]can)scan_fun "${comando[1]}" &;;
 			 
-             * ) ajuda_fun ;;
+             *)ajuda_fun;;
 			 
              esac
              else
              [[ ! -z "${comando[0]}" ]] && blockfun &
-             be;;
+             fi;;
            esac
     done
 done
