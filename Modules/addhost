@@ -300,7 +300,7 @@ demor="$(echo $demo3)"
 local bot_retorno="*$LINE*\n"
          bot_retorno+="*🔰 MANAGER VPS-MX 2.0 🔰*\n"
          bot_retorno+="$LINE\n"
-		 bot_retorno+="_▪️ SSH REGISTRADAS:_ ( *$SSH4* )\n"	
+		 bot_retorno+="_▪️ REGISTERED SSH:_ ( *$SSH4* )\n"	
          bot_retorno + = " _▪️ CONNECTED: _ (* $ ONLINES *) \ n "
 		 bot_retorno+="_▪️ BADVPN:_ 🎮 *$badvpn* \n"
 		 bot_retorno+="$LINE\n"
@@ -308,22 +308,22 @@ local bot_retorno="*$LINE*\n"
 		 bot_retorno+="----------------------------------\n"
          bot_return + = " / add - >> Add User \ n "
          [[ $(dpkg --get-selections|grep -w "openvpn"|head -1) ]] && [[ -e /etc/openvpn/openvpn-status.log ]] && bot_retorno+="/openadd ($(fun_trans "crear archivo openvpn"))\n"
-         bot_retorno + = " / delete - >> Remove User \ n "
-		 bot_retorno+="/renovar -->> Renovar Cuenta\n"
-         bot_retorno + = " / users - >> User Info \ n "
+         bot_retorno + = " /delete - >> Remove User \ n "
+		 bot_retorno+="/renew -->> Renew Account\n"
+         bot_retorno + = " /users - >> User Info \ n "
 		 bot_retorno + = " / locked - >> Blocked Users \ n "
-		 bot_retorno+="/bloquear -->> Bloquear Usuario\n"
-		 bot_retorno + = " / unlock - >> Unlock User \ n "
-		 bot_retorno+="/online -->> Usuarios Online\n"
-         bot_retorno+="/infovps -->> Info de Servidor\n"
+		 bot_retorno+="/block -->> Block user\n"
+		 bot_retorno + = " /unlock - >> Unlock User \ n "
+		 bot_retorno+="/online -->> Users Online\n"
+         bot_retorno+="/infovps -->> Server Info\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+=" _ HERRAMIENTAS _\n"
+         bot_retorno+=" _ TOOLS _\n"
 		 bot_retorno+="----------------------------------\n"
-		 bot_retorno+="/lang -->> Traducir texto\n"
-         bot_retorno+="/scan -->> Scan de Subdominios\n"
-         bot_retorno+="/gerar -->> Cod y Dec Texto\n"
-		 bot_retorno+="/sshi -->> Info de cuenta SSH\n"
-		 bot_retorno+="/admins -->> ADMIN's con Acceso\n"
+		 bot_retorno+="/infoall ($(fun_trans "all user information"))\n"
+		 bot_retorno+="/info -->> SSH account info\n"
+		 bot_retorno+="/scan -->> Scan de Subdominios\n"
+		 
+		 bot_retorno+="/admins -->> ADMIN's with Access\n"
 		 bot_retorno+="$LINE\n"
          bot_retorno + = " / ADMIN - >> Release the BOT \ n "
          bot_retorno+="$LINE\n"
@@ -965,7 +965,7 @@ local bot_retorno="*$LINE*\n"
 		  bot_retorno+="*$LINE*\n"
           bot_retorno + = " / renew user days \ n "
 		  bot_retorno+="_Ejemplo:_\n"
-		  bot_retorno+="/renovar CARLOS 30\n"
+		  bot_retorno+="/renew CARLOS 30\n"
           bot_retorno+="*$LINE*\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1258,7 +1258,7 @@ while true; do
 	      / [Tt] is | [Tt] is) test_fun & ;;
 		  / [Aa] juda | [Aa] juda | [Hh] elp | / [Hh] elp) ajuda_fun & ;;
 		  /[Ss]tart|[Ss]tart|[Cc]omecar|/[Cc]omecar)ajuda_fun &;;
-		  /[Ss]SHI|[Ss]SHI)info_sshp "${comando[1]}" &;;
+		  /[Ii]nfoall|[Ii]nfoall)info_sshp "${comando[1]}" &;;
 		  /[Aa]DMIN|[Aa]DMIN)ativarid_fun "${comando[1]}" "${comando[2]}" "$chatuser";;
 		  *)if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "${chatuser}") ]]; then
              case $ {command [0]} in
@@ -1268,7 +1268,7 @@ while true; do
              [Oo]nline|/[Oo]nline|[Oo]nlines|/[Oo]nlines)online_fun & ;;
              [Cc]riptar|/[Cc]riptar|[Cc]ript|/[Cc]ript)cript_fun "${comando[@]}" &;;
              [Uu]seradd|/[Uu]seradd|[Aa]dd|/[Aa]dd)useradd_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" "${comando[4]}" &;;
-             [Uu]serdell|/[Uu]serdell|[Dd]ell|/[Dd]ell)userdell_fun " $ {command [1]} " & ;;
+             [Uu]serdell|/[Uu]serdell|[Dd]elete|/[Dd]elete)userdell_fun " $ {command [1]} " & ;;
 			 [Rr]enew|/[Rr]enew)renew_user_fun "${comando[1]}" "${comando[2]}" &;;
 			 [Bb]lock|/[Bb]lock)blo_unb_fun "${comando[1]}" &;;
 			 [Uu]nblock|/[Uu]nblock)blo_unb_fun "${comando[1]}" &;;
