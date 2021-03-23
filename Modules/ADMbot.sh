@@ -301,23 +301,23 @@ local bot_retorno="*$LINE*\n"
          bot_retorno+="*🔰 MANAGER VPS-MX 2.0 🔰*\n"
          bot_retorno+="$LINE\n"
 		 bot_retorno+="_▪️ REGISTERED SSH:_ ( *$SSH4* )\n"	
-         bot_retorno + = " _▪️ CONNECTED: _ (* $ ONLINES *) \ n "
+         bot_retorno+="_▪️ CONNECTED: _ ( *$ONLINES* )\n"
 		 bot_retorno+="_▪️ BADVPN:_ 🎮 *$badvpn* \n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno + = " _COMMANDS AVAILABLE _ \ n "
+         bot_retorno+="_COMMANDS AVAILABLE_\n "
 		 bot_retorno+="----------------------------------\n"
-         bot_return + = " /add - >> Add User \ n "
+         bot_return+="/add - >> Add User\n"
          [[ $(dpkg --get-selections|grep -w "openvpn"|head -1) ]] && [[ -e /etc/openvpn/openvpn-status.log ]] && bot_retorno+="/openadd ($(fun_trans "crear archivo openvpn"))\n"
-         bot_retorno + = " /delete - >> Remove User \ n "
+         bot_retorno+="/delete - >> Remove User\n"
 		 bot_retorno+="/renew -->> Renew Account\n"
-         bot_retorno + = " /users - >> User Info \ n "
-		 bot_retorno + = " /seeblocked - >> Blocked Users \ n "
+         bot_retorno+="/users - >> User Info\n"
+		 bot_retorno+=" /seeblocked - >> Blocked Users\n"
 		 bot_retorno+="/block -->> Block user\n"
-		 bot_retorno + = " /unlock - >> Unlock User \ n "
+		 bot_retorno+="/unlock - >> Unlock User\n"
 		 bot_retorno+="/online -->> Users Online\n"
          bot_retorno+="/infovps -->> Server Info\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+=" _ TOOLS _\n"
+         bot_retorno+="_TOOLS _\n"
 		 bot_retorno+="----------------------------------\n"
 		 bot_retorno+="/infoall ($(fun_trans "all user information"))\n"
 		 bot_retorno+="/info -->> SSH account info\n"
@@ -325,7 +325,7 @@ local bot_retorno="*$LINE*\n"
 		 
 		 bot_retorno+="/admins -->> ADMIN's with Access\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno + = " / ADMIN - >> Release the BOT \ n "
+         bot_retorno+= "/ADMIN - >> Release the BOT\n"
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1255,13 +1255,13 @@ while true; do
 	    echo $chatuser >&2
 	    comando=(${message_text[$id]})
 	    case ${comando[0]} in
-	      / [Tt] is | [Tt] is) test_fun & ;;
-		  / [Aa] juda | [Aa] juda | [Hh] elp | / [Hh] elp) ajuda_fun & ;;
+	     /[Tt]este|[Tt]este)teste_fun &;;
+		  /[Aa]juda|[Aa]juda|[Hh]elp|/[Hh]elp)ajuda_fun &;;
 		  /[Ss]tart|[Ss]tart|[Cc]omecar|/[Cc]omecar)ajuda_fun &;;
 		  /[Ii]nfoall|[Ii]nfoall)info_sshp "${comando[1]}" &;;
 		  /[Aa]DMIN|[Aa]DMIN)ativarid_fun "${comando[1]}" "${comando[2]}" "$chatuser";;
 		  *)if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "${chatuser}") ]]; then
-             case $ {command [0]} in
+             case ${command [0]} in
 			 
 			 ##PANEL SSH 
 			 
