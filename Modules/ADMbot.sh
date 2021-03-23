@@ -1,12 +1,13 @@
 #!/bin/bash
-#20/09/2020
-
+#26/01/2021
+clear
+clear
 # DIRECCIONES DE CARPETAS Y ARCHIVOS 
 
-SCPdir="/etc/newadm" && [[ ! -d ${SCPdir} ]] && exit 1
-SCPusr="${SCPdir}/ger-user" && [[ ! -d ${SCPusr} ]] && mkdir ${SCPusr}
-SCPfrm="/etc/ger-frm" && [[ ! -d ${SCPfrm} ]] && mkdir ${SCPfrm}
-SCPinst="/etc/ger-inst" && [[ ! -d ${SCPfrm} ]] && mkdir ${SCPfrm}
+SCPdir="/etc/VPS-MX" && [[ ! -d ${SCPdir} ]] && exit 1
+SCPusr="${SCPdir}/controlador" && [[ ! -d ${SCPusr} ]] && mkdir ${SCPusr}
+SCPfrm="${SCPdir}/herramientas" && [[ ! -d ${SCPfrm} ]] && mkdir ${SCPfrm}
+SCPinst="${SCPdir}/protocolos" && [[ ! -d ${SCPfrm} ]] && mkdir ${SCPfrm}
 SCPidioma="${SCPdir}/idioma" && [[ ! -e ${SCPidioma} ]] && touch ${SCPidioma}
 mkdir -p /etc/BOT &>/dev/null
 mkdir -p /etc/BOT-C &>/dev/null
@@ -18,7 +19,7 @@ USRdatacredi="/etc/BOT-C2/creditos"
 
 ##### SERVIDOR TELEGRAM PERSONAL
 [[ $(dpkg --get-selections|grep -w "jq"|head -1) ]] || apt-get install jq -y &>/dev/null
-[[ ! -e "/bin/ShellBot.sh" ]] && wget -O /bin/ShellBot.sh https://raw.githubusercontent.com/shellscriptx/shellbot/master/ShellBot.sh &> /dev/null
+[[ ! -e "/bin/ShellBot.sh" ]] && wget -O /bin/ShellBot.sh https://www.dropbox.com/s/iq1cnpuytakc0lr/ShellBot.sh &> /dev/null
 [[ -e /etc/texto-bot ]] && rm /etc/texto-bot
 
 ##### VERIFICANDO  PAQUETES PRIMARIOS
@@ -31,6 +32,7 @@ USRdatacredi="/etc/BOT-C2/creditos"
 ## INGRESO DE TOKEN BOT
 clear
 msg -bar
+msg -tit
 msg -ama "      ## BOT DE GESTION | VPS-MX By @Kalix1 ## \033[1;31m"
 msg -bar
 if [[ $1 = "id" || -z $(ps aux |grep -v grep |grep -w "ADMbot.sh"|grep dmS|awk '{print $2}') ]]; then
@@ -54,7 +56,7 @@ msg -bar
 exit 0
 fi
 LINE='━━━━━━━━━━━━━━━━━━━━'
-USRdatabase="/etc/ADMuser"
+USRdatabase="/etc/VPS-MX/VPS-MXuser"
 #IMPORTANDO API
 source ShellBot.sh
 ShellBot.init --token "$TOKEN"
@@ -163,13 +165,13 @@ done
 }
 # DEFINE UM IP
 meu_ip () {
-if [[ -e /etc/MEUIPADM ]]; then
-echo "$(cat /etc/MEUIPADM)"
+if [[ -e /etc/VPS-MX/MEUIPvps ]]; then
+echo "$(cat /etc/VPS-MX/MEUIPvps)"
 else
 MEU_IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 MEU_IP2=$(wget -qO- ipv4.icanhazip.com)
 [[ "$MEU_IP" != "$MEU_IP2" ]] && echo "$MEU_IP2" || echo "$MEU_IP"
-echo "$MEU_IP2" > /etc/MEUIPADM
+echo "$MEU_IP" > /etc/VPS-MX/MEUIPvps
 fi
 }
 # USUARIO BLOCK
@@ -285,7 +287,7 @@ echo "${SSH2}"|bc > /etc/BOT-A/SSH20.log
 SSH3="$(less /etc/BOT-A/SSH20.log)"
 SSH4="$(echo $SSH3)"
 #ONLINES
-ONLINES="$(less /etc/newadm/USRonlines)"
+ONLINES="$(less /etc/VPS-MX/USRonlines)"
 ##DEMOS REGISTRADOS
 demo=`cd /etc/BOT-TEMP && ls | wc -l`
 cd
@@ -298,32 +300,32 @@ demor="$(echo $demo3)"
 local bot_retorno="*$LINE*\n"
          bot_retorno+="*🔰 MANAGER VPS-MX 2.0 🔰*\n"
          bot_retorno+="$LINE\n"
-		 bot_retorno+="_▪️ SSH REGISTRADAS:_ ( *$SSH4* )\n"	
-         bot_retorno+="_▪️ CONECTADOS:_ ( *$ONLINES* )\n"
+		 bot_retorno+="_▪️ REGISTERED SSH:_ ( *$SSH4* )\n"	
+         bot_retorno+="_▪️ CONNECTED: _ ( *$ONLINES* )\n"
 		 bot_retorno+="_▪️ BADVPN:_ 🎮 *$badvpn* \n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+=" _COMANDOS DISPONIBLES _\n"
+         bot_retorno+="_COMMANDS AVAILABLE_\n "
 		 bot_retorno+="----------------------------------\n"
-         bot_retorno+="/agregar -->> Agregar Usuario\n"
+         bot_return+="/add - >> Add User\n"
          [[ $(dpkg --get-selections|grep -w "openvpn"|head -1) ]] && [[ -e /etc/openvpn/openvpn-status.log ]] && bot_retorno+="/openadd ($(fun_trans "crear archivo openvpn"))\n"
-         bot_retorno+="/eliminar -->> Remover Usuario\n"
-		 bot_retorno+="/renovar -->> Renovar Cuenta\n"
-         bot_retorno+="/usuarios -->> Info de Usuarios\n"
-		 bot_retorno+="/verbloqueados -->> Usuarios Bloqueados\n"
-		 bot_retorno+="/bloquear -->> Bloquear Usuario\n"
-		 bot_retorno+="/desbloquear -->> Desbloquear Usuario\n"
-		 bot_retorno+="/online -->> Usuarios Online\n"
-         bot_retorno+="/infovps -->> Info de Servidor\n"
+         bot_retorno+="/delete - >> Remove User\n"
+		 bot_retorno+="/renew -->> Renew Account\n"
+         bot_retorno+="/users - >> User Info\n"
+		 bot_retorno+=" /seeblocked - >> Blocked Users\n"
+		 bot_retorno+="/block -->> Block user\n"
+		 bot_retorno+="/unlock - >> Unlock User\n"
+		 bot_retorno+="/online -->> Users Online\n"
+         bot_retorno+="/infovps -->> Server Info\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+=" _ HERRAMIENTAS _\n"
+         bot_retorno+="_TOOLS _\n"
 		 bot_retorno+="----------------------------------\n"
-		 bot_retorno+="/lang -->> Traducir texto\n"
-         bot_retorno+="/scan -->> Scan de Subdominios\n"
-         bot_retorno+="/gerar -->> Cod y Dec Texto\n"
-		 bot_retorno+="/sshi -->> Info de cuenta SSH\n"
-		 bot_retorno+="/admins -->> ADMIN's con Acceso\n"
+		 bot_retorno+="/infoall ($(fun_trans "all user information"))\n"
+		 bot_retorno+="/info -->> SSH account info\n"
+		 bot_retorno+="/scan -->> Scan de Subdominios\n"
+		 
+		 bot_retorno+="/admins -->> ADMIN's with Access\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+="/ADMIN -->> Liberar el BOT\n"
+         bot_retorno+= "/ADMIN - >> Release the BOT\n"
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -373,7 +375,7 @@ fi
 return 0
 }
 online_fun () {
-MyTIME="${SCPusr}/time-adm"
+MyTIME="${SCPusr}/time-vps-mx"
 [[ -e ${MyTIME} ]] && source ${MyTIME} || touch ${MyTIME}
 local bot_retorno="$LINE\n"
          bot_retorno+="$* Monitor de Usuarios* \n"
@@ -419,9 +421,9 @@ error_fun () {
 local bot_retorno="$LINE\n"
          bot_retorno+=" -->>> MODO DE USO\n"
          bot_retorno+="$LINE\n"
-         bot_retorno+="agregar Usuario Contraseña Dias Limite\n"
+         bot_retorno+="add Contraseña Dias Limite\n"
          bot_retorno+="Ejemplo:\n"
-         bot_retorno+='agregar admin admin 30 1\n'
+         bot_retorno+='add admin admin 30 1\n'
          bot_retorno+="$LINE\n"
          case $1 in
          [1-3]|14)
@@ -514,9 +516,9 @@ error_fun () {
 local bot_retorno="$LINE\n"
          bot_retorno+=" -->>> MODO DE USO\n"
          bot_retorno+="$LINE\n"
-         bot_retorno+="eliminar Usuario\n"
+         bot_retorno+="delete Usuario\n"
          bot_retorno+="Ejemplo:\n"
-         bot_retorno+='eliminar admin\n'
+         bot_retorno+='delete admin\n'
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -961,9 +963,9 @@ fail_fun () {
 local bot_retorno="*$LINE*\n"
           bot_retorno+=" -->>> MODO DE USO\n"
 		  bot_retorno+="*$LINE*\n"
-          bot_retorno+="/renovar usuario dias\n"
+          bot_retorno+="/renew usuario dias\n"
 		  bot_retorno+="_Ejemplo:_\n"
-		  bot_retorno+="/renovar CARLOS 30\n"
+		  bot_retorno+="/renew CARLOS 30\n"
           bot_retorno+="*$LINE*\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -986,7 +988,7 @@ return 0
 
 [[ -z $1 ]] && error_fun && return 0
 cup1="$1"
-userva="$(cat /etc/ADMuser|grep -w "$cup1"|cut -d'|' -f1)"
+userva="$(cat /etc/VPS-MX/VPS-MXuser|grep -w "$cup1"|cut -d'|' -f1)"
 
 [[ -z $userva ]] && error_fun && return 0
 
@@ -1003,8 +1005,9 @@ chage -E $valid $1 2> /dev/null || return 1
    done 
    }
   
-NOM=`less /etc/newadm/ger-user/nombre.log` > /dev/null 2>&1
+NOM=`less /etc/VPS-MX/controlador/nombre.log` > /dev/null 2>&1
 NOM1=`echo $NOM` > /dev/null 2>&1
+IP="$(cat /etc/VPS-MX/MEUIPvps)"
   
    local bot_retorno="*$LINE*\n"
           bot_retorno+="*CUENTA RENOVADA* \n"
@@ -1014,7 +1017,7 @@ NOM1=`echo $NOM` > /dev/null 2>&1
           bot_retorno+="🕰 _Ahora expira:_\n👉 *$datexp* \n"
           bot_retorno+="*$LINE*\n"
 		  bot_retorno+="▪️ _VPS: _ *$NOM1* \n"
-		  bot_retorno+="▪️ _IP:_ *$(meu_ip)* \n"
+		  bot_retorno+="▪️ _IP:_ *$IP* \n"
 		  bot_retorno+="*$LINE*\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1043,16 +1046,16 @@ return 0
 
 VPSsec=$(date +%s)
 
-sen=$(cat /etc/ADMuser|grep -w "$1"|cut -d '|' -f2)
+sen=$(cat /etc/VPS-MX/VPS-MXuser|grep -w "$1"|cut -d '|' -f2)
              [[ -z $sen ]] && sen="???"
-             DateExp="$(cat /etc/ADMuser|grep -w "$1"|cut -d'|' -f3)"
+             DateExp="$(cat /etc/VPS-MX/VPS-MXuser|grep -w "$1"|cut -d'|' -f3)"
              if [[ ! -z $DateExp ]]; then             
              DataSec=$(date +%s --date="$DateExp")
              [[ "$VPSsec" -gt "$DataSec" ]] && EXPTIME="${red}[EXPIRADA]" || EXPTIME="${gren}[$(($(($DataSec - $VPSsec)) / 86400))]"
              else
              EXPTIME="???"
              fi
-             limit=$(cat /etc/ADMuser|grep -w "$1"|cut -d '|' -f4)
+             limit=$(cat /etc/VPS-MX/VPS-MXuser|grep -w "$1"|cut -d '|' -f4)
              [[ -z $limit ]] && limit="???"
 			 
 local bot_retorno="*$LINE*\n"
@@ -1070,14 +1073,13 @@ local bot_retorno="*$LINE*\n"
         
 return 0
 }
-
 ## PID DROPBEAR
 
 droppids () {
 local pids
 local port_dropbear=`ps aux | grep dropbear | awk NR==1 | awk '{print $17;}'`
 cat /var/log/auth.log|grep "$(date|cut -d' ' -f2,3)" > /var/log/authday.log
-# cat /var/log/auth.log|tail -1000 > /var/log/authday.log
+#cat /var/log/auth.log|tail -1000 > /var/log/authday.log
 local log=/var/log/authday.log
 local loginsukses='Password auth succeeded'
 [[ -z $port_dropbear ]] && return 1
@@ -1109,12 +1111,12 @@ error_fun () {
 local bot_retorno="*$LINE*\n"
           bot_retorno+="*MODO DE USO:*\n"
 		  bot_retorno+="*$LINE*\n"
-		  bot_retorno+="Pon el Comando /bloquear (INGRESA NOMBRE DE USUARIO) \n"
+		  bot_retorno+="Pon el Comando /block (INGRESA NOMBRE DE USUARIO) \n"
 		  bot_retorno+="\t---- O ----- \n"
-		  bot_retorno+="Pon el Comando /desbloquear (INGRESA NOMBRE DE USUARIO) \n"
+		  bot_retorno+="Pon el Comando /unblock (INGRESA NOMBRE DE USUARIO) \n"
 		  bot_retorno+="*$LINE*\n"
-          bot_retorno+="_Ejemplo: bloquear Ale2020 _\n"
-		  bot_retorno+="_Ejemplo: desbloquear Ale2020 _\n"
+          bot_retorno+="_Ejemplo: block Ale2020 _\n"
+		  bot_retorno+="_Ejemplo: unblock Ale2020 _\n"
           bot_retorno+="*$LINE*\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -1123,13 +1125,13 @@ return 0
 }
 
 [[ -z $1 ]] && error_fun && return 0
-local USRloked="/etc/newadm-userlock"
+local USRloked="/etc/VPS-MX/VPS-MX-userlock"
 local LIMITERLOG="${USRdatabase}/Limiter.log"
 local LIMITERLOG2="${USRdatabase}/Limiter2.log"
 if [[ $2 = "-loked" ]]; then 
 [[ $(cat ${USRloked}|grep -w "$1") ]] && return 1
 echo " $1 (BLOCK-MULTILOGIN) $(date +%r--%d/%m/%y)"
-limseg="$(less /etc/newadm/ger-user/tiemdes.log)"
+limseg="$(less /etc/VPS-MX/controlador/tiemdes.log)"
 KEY="862633455:AAGJ9BBJanzV6yYwLSemNAZAVwn7EyjrtcY"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 MSG="⚠️ AVISO DE VPS: $NOM1 ⚠️
@@ -1198,7 +1200,7 @@ fi
 
 userblock_lee () {
 
-local HOST="/etc/newadm-userlock"
+local HOST="/etc/VPS-MX/VPS-MX-userlock"
 local RETURN=$(cat $HOST)
 if [[ -z $RETURN ]]; then
 local bot_retorno="$LINE\n"
@@ -1244,6 +1246,7 @@ local bot_retorno="*$LINE*\n"
 	return 0
 }
 
+
 # LOOP ESCUTANDO O TELEGRAN
 while true; do
     ShellBot.getUpdates --limit 100 --offset $(ShellBot.OffsetNext) --timeout 30
@@ -1252,31 +1255,31 @@ while true; do
 	    echo $chatuser >&2
 	    comando=(${message_text[$id]})
 	    case ${comando[0]} in
-	      /[Tt]este|[Tt]este)teste_fun &;;
+	     /[Tt]este|[Tt]este)teste_fun &;;
 		  /[Aa]juda|[Aa]juda|[Hh]elp|/[Hh]elp)ajuda_fun &;;
 		  /[Ss]tart|[Ss]tart|[Cc]omecar|/[Cc]omecar)ajuda_fun &;;
-		  /[Ss]SHI|[Ss]SHI)info_sshp "${comando[1]}" &;;
+		  /[Ii]nfoall|[Ii]nfoall)info_sshp "${comando[1]}" &;;
 		  /[Aa]DMIN|[Aa]DMIN)ativarid_fun "${comando[1]}" "${comando[2]}" "$chatuser";;
 		  *)if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "${chatuser}") ]]; then
-             case ${comando[0]} in
+             case ${command[0]} in
 			 
 			 ##PANEL SSH 
 			 
-             [Oo]nline|/[Oo]nline|[Oo]nlines|/[Oo]nlines)online_fun &;;
+             [Oo]nline|/[Oo]nline|[Oo]nlines|/[Oo]nlines)online_fun & ;;
              [Cc]riptar|/[Cc]riptar|[Cc]ript|/[Cc]ript)cript_fun "${comando[@]}" &;;
-             [Aa]gregar|/[Aa]gregar)useradd_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" "${comando[4]}" &;;
-             [Ee]liminar|/[Ee]liminar)userdell_fun "${comando[1]}" &;;
-			 [Rr]enovar|/[Rr]enovar)renew_user_fun "${comando[1]}" "${comando[2]}" &;;
-			 [Bb]loquear|/[Bb]loquear)blo_unb_fun "${comando[1]}" &;;
-			 [Dd]esbloquear|/[Dd]esbloquear)blo_unb_fun "${comando[1]}" &;;
-			 [Vv]erbloqueados|/[Vv]erbloqueados)userblock_lee &;;
-			 ##HERRAMIENTAS
+             [Uu]seradd|/[Uu]seradd|[Aa]dd|/[Aa]dd)useradd_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" "${comando[4]}" &;;
+             [Uu]serdell|/[Uu]serdell|[Dd]elete|/[Dd]elete)userdell_fun " ${command [1]}" &;;
+			 [Rr]enew|/[Rr]enew)renew_user_fun "${comando[1]}" "${comando[2]}" &;;
+			 [Bb]lock|/[Bb]lock)blo_unb_fun "${comando[1]}" &;;
+			 [Uu]nblock|/[Uu]nblock)blo_unb_fun "${comando[1]}" &;;
+			 [Ss]eeblocked|/[Ss]eeblocked)userblock_lee &;;
+			 ##TOOLS
              [Aa]dmins|/[Aa]dmins)loguin_fun &;;
              [Ii]nfovps|/[Ii]nfovps)infovps &;;
              [Ll]ang|/[Ll]ang)language_fun "${comando[@]}" &;;
              [Oo]penadd|/[Oo]penadd|[Oo]pen|/[Oo]pen)openadd_fun "${comando[1]}" "${comando[2]}" &;;
              [Gg]erar|/[Gg]erar|[Pp]ay|/[Pp]ay)paygen_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" &;;
-             [Uu]suarios|/[Uu]suarios|[Uu]ser|/[Uu]ser)info_fun &;;
+             [Ii]nfo|/[Ii]nfo)info_fun &;;
              [Ss]can|/[Ss]can)scan_fun "${comando[1]}" &;;
 			 
              *)ajuda_fun;;
