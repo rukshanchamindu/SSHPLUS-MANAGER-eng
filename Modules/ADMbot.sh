@@ -179,7 +179,7 @@ blockfun () {
 local bot_retorno="$LINE\n"
           bot_retorno+="--❌ YOU CANNOT USE THE BOT ❌--\n"
           bot_retorno+="$LINE\n"
-          bot_retorno+="_--If you are ADMIN, enter your credentials--_\n"
+          bot_retorno+="_--If you are ADMIN enter your credentials--_\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -301,7 +301,7 @@ local bot_retorno="*$LINE*\n"
          bot_retorno+="*🔰 MANAGER VPS-MX 2.0🔰*\n"
          bot_retorno+="$LINE\n"
 		 bot_retorno+="_▪️ REGISTERED SSH:_ ( *$SSH4* )\n"	
-         bot_retorno+="_▪️ CONNECTED: _ ( *$ONLINES* )\n"
+         bot_retorno+="_▪️ CONNECTED:_ ( *$ONLINES* )\n"
 		 bot_retorno+="_▪️ BADVPN:_ 🎮 *$badvpn* \n"
 		 bot_retorno+="$LINE\n"
          bot_retorno+="_COMMANDS AVAILABLE_\n "
@@ -317,7 +317,7 @@ local bot_retorno="*$LINE*\n"
 		 bot_retorno+="/online -->> Users Online\n"
          bot_retorno+="/infovps -->> Server Info\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+="_TOOLS _\n"
+         bot_retorno+="_ TOOLS _\n"
 		 bot_retorno+="----------------------------------\n"
 		 bot_retorno+="/infoall ($(fun_trans "all user information"))\n"
 		 bot_retorno+="/info -->> SSH account info\n"
@@ -325,7 +325,7 @@ local bot_retorno="*$LINE*\n"
 		 
 		 bot_retorno+="/admins -->> ADMIN's with Access\n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+= "/ADMIN - >> Release the BOT\n"
+         bot_retorno+="/ADMIN -->> Release the BOT\n"
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -421,7 +421,7 @@ error_fun () {
 local bot_retorno="$LINE\n"
          bot_retorno+=" -->>> HOW TO USE\n"
          bot_retorno+="$LINE\n"
-         bot_retorno+="add Contraseña Dias Limite\n"
+         bot_retorno+="add Password Days Limite\n"
          bot_retorno+="Example:\n"
          bot_retorno+='add admin admin 30 1\n'
          bot_retorno+="$LINE\n"
@@ -1265,10 +1265,10 @@ while true; do
 			 
 			 ##PANEL SSH 
 			 
-             [Oo]nline|/[Oo]nline|[Oo]nlines|/[Oo]nlines)online_fun & ;;
+             [Oo]nline|/[Oo]nline|[Oo]nlines|/[Oo]nlines)online_fun &;;
              [Cc]riptar|/[Cc]riptar|[Cc]ript|/[Cc]ript)cript_fun "${comando[@]}" &;;
              [Uu]seradd|/[Uu]seradd|[Aa]dd|/[Aa]dd)useradd_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" "${comando[4]}" &;;
-             [Uu]serdell|/[Uu]serdell|[Dd]elete|/[Dd]elete)userdell_fun " ${command [1]}" &;;
+             [Uu]serdell|/[Uu]serdell|[Dd]elete|/[Dd]elete)userdell_fun "${comando[1]}" &;;
 			 [Rr]enew|/[Rr]enew)renew_user_fun "${comando[1]}" "${comando[2]}" &;;
 			 [Bb]lock|/[Bb]lock)blo_unb_fun "${comando[1]}" &;;
 			 [Uu]nblock|/[Uu]nblock)blo_unb_fun "${comando[1]}" &;;
