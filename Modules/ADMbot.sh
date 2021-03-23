@@ -304,25 +304,25 @@ local bot_retorno="*$LINE*\n"
          bot_retorno+="_▪️ CONNECTED:_ ( *$ONLINES* )\n"
 		 bot_retorno+="_▪️ BADVPN:_ 🎮 *$badvpn* \n"
 		 bot_retorno+="$LINE\n"
-         bot_retorno+="_COMMANDS AVAILABLE_\n "
+         bot_retorno+=" _COMMANDS AVAILABLE_\n "
 		 bot_retorno+="----------------------------------\n"
-         bot_retorno+="/add - >> Add User\n"
+         bot_retorno+="/add -->> Add User\n"
          [[ $(dpkg --get-selections|grep -w "openvpn"|head -1) ]] && [[ -e /etc/openvpn/openvpn-status.log ]] && bot_retorno+="/openadd ($(fun_trans "crear archivo openvpn"))\n"
-         bot_retorno+="/delete - >> Remove User\n"
+         bot_retorno+="/delete -->> Remove User\n"
 		 bot_retorno+="/renew -->> Renew Account\n"
-         bot_retorno+="/users - >> User Info\n"
+         bot_retorno+="/info -->> User Info\n"
 		 bot_retorno+="/seeblocked - >> Blocked Users\n"
 		 bot_retorno+="/block -->> Block user\n"
-		 bot_retorno+="/unlock - >> Unlock User\n"
+		 bot_retorno+="/unlock -->> Unlock User\n"
 		 bot_retorno+="/online -->> Users Online\n"
          bot_retorno+="/infovps -->> Server Info\n"
 		 bot_retorno+="$LINE\n"
          bot_retorno+="_ TOOLS _\n"
 		 bot_retorno+="----------------------------------\n"
-		 bot_retorno+="/infoall ($(fun_trans "all user information"))\n"
+		 bot_retorno+="/infoall -->> all user information)\n"
 		 bot_retorno+="/info -->> SSH account info\n"
 		 bot_retorno+="/scan -->> Scan de Subdominios\n"
-		 
+		 bot_retorno+="/gerar -->> Cod and Dec Text\n"
 		 bot_retorno+="/admins -->> ADMIN's with Access\n"
 		 bot_retorno+="$LINE\n"
          bot_retorno+="/ADMIN -->> Release the BOT\n"
@@ -963,7 +963,7 @@ fail_fun () {
 local bot_retorno="*$LINE*\n"
           bot_retorno+=" -->>> HOW TO USE\n"
 		  bot_retorno+="*$LINE*\n"
-          bot_retorno+="/renewuser days\n"
+          bot_retorno+="/renew user days\n"
 		  bot_retorno+="_Example:_\n"
 		  bot_retorno+="/renew CARLOS 30\n"
           bot_retorno+="*$LINE*\n"
@@ -1261,7 +1261,7 @@ while true; do
 		  /[Ii]nfoall|[Ii]nfoall)info_sshp "${comando[1]}" &;;
 		  /[Aa]DMIN|[Aa]DMIN)ativarid_fun "${comando[1]}" "${comando[2]}" "$chatuser";;
 		  *)if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "${chatuser}") ]]; then
-             case ${command[0]} in
+             case ${comando[0]} in
 			 
 			 ##PANEL SSH 
 			 
