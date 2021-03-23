@@ -1261,14 +1261,14 @@ while true; do
 		  /[Ii]nfoall|[Ii]nfoall)info_sshp "${comando[1]}" &;;
 		  /[Aa]DMIN|[Aa]DMIN)ativarid_fun "${comando[1]}" "${comando[2]}" "$chatuser";;
 		  *)if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "${chatuser}") ]]; then
-             case ${command [0]} in
+             case ${command[0]} in
 			 
 			 ##PANEL SSH 
 			 
              [Oo]nline|/[Oo]nline|[Oo]nlines|/[Oo]nlines)online_fun & ;;
              [Cc]riptar|/[Cc]riptar|[Cc]ript|/[Cc]ript)cript_fun "${comando[@]}" &;;
              [Uu]seradd|/[Uu]seradd|[Aa]dd|/[Aa]dd)useradd_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" "${comando[4]}" &;;
-             [Uu]serdell|/[Uu]serdell|[Dd]elete|/[Dd]elete)userdell_fun " $ {command [1]} " & ;;
+             [Uu]serdell|/[Uu]serdell|[Dd]elete|/[Dd]elete)userdell_fun " ${command [1]}" &;;
 			 [Rr]enew|/[Rr]enew)renew_user_fun "${comando[1]}" "${comando[2]}" &;;
 			 [Bb]lock|/[Bb]lock)blo_unb_fun "${comando[1]}" &;;
 			 [Uu]nblock|/[Uu]nblock)blo_unb_fun "${comando[1]}" &;;
@@ -1279,7 +1279,7 @@ while true; do
              [Ll]ang|/[Ll]ang)language_fun "${comando[@]}" &;;
              [Oo]penadd|/[Oo]penadd|[Oo]pen|/[Oo]pen)openadd_fun "${comando[1]}" "${comando[2]}" &;;
              [Gg]erar|/[Gg]erar|[Pp]ay|/[Pp]ay)paygen_fun "${comando[1]}" "${comando[2]}" "${comando[3]}" &;;
-             [Ii]nfo|/[Ii]nfo)info_fun & ;;
+             [Ii]nfo|/[Ii]nfo)info_fun &;;
              [Ss]can|/[Ss]can)scan_fun "${comando[1]}" &;;
 			 
              *)ajuda_fun;;
